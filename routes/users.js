@@ -29,6 +29,7 @@ router.get('/signUp', async function(req, res, next) {
    });
 
    saveUser = await newUser.save()
+   console.log("---------saveUser",saveUser)
   
    if(saveUser){
      result = true
