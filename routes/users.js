@@ -16,6 +16,8 @@ router.get('/signUp', async function(req, res, next) {
   var saveUser = null
   var token = null
 
+  const cost = 10;
+  const hash = bcrypt.hashSync(myPlaintextPassword, cost);
   var salt = uid2(32)
   var newUser = new userModel ({
     lastName: req.body.lastname,
