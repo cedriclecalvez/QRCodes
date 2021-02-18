@@ -3,19 +3,29 @@ var router = express.Router();
 
 var userModel = require('../models/user')
 var bcrypt = require('bcrypt');
-var uid2 = require('uid2')
+var uid2 = require('uid2');
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+
   res.send('respond with a resource');
 });
 
+// POST inscription
+router.post('/signUp', async function(req, res, next) {
 
-router.get('/signUp', async function(req, res, next) {
   var result = false
   var saveUser = null
   var token = null
   var error = []
+
+  console.log("---------userModel",userModel)
+
+  var userExist =  await userModel.findOne({email:req.body.email})
+  if (userExist!=null){
+    error.push('email existe déjà')
+  }
 
   if (req.body.firstName == ''
     || req.body.lastName == ''
@@ -28,14 +38,12 @@ router.get('/signUp', async function(req, res, next) {
   if (error.length == 0){
     const cost = 10;
     const hash = bcrypt.hashSync(myPlaintextPassword, cost);
-    var salt = uid2(32)
     var newUser = new userModel ({
       lastName: req.body.lastname,
       firstName: req.body.firstname,
       email: req.body.email,
       password: hash,
       token: uid2(32),
-      salt: salt
     });
 
     saveUser = await newUser.save()
@@ -48,6 +56,40 @@ router.get('/signUp', async function(req, res, next) {
   }
  
  res.json({result, saveUser, token, error})
+});
+
+// POST pour se logger
+router.post('/signIn', async function(req, res, next) {
+
+  var error = [];
+  
+  if (req.body.firstName==""||req.body.lastname==""||req.body.email==""){
+    error.push("champs vides")
+  }
+
+  if (error.length==0){
+    
+    // comparaison des passwords
+    var user = await User.findOne({ email: req.body.email });
+    var password = req.body.password
+    var token = user.token
+    
+    if (user){
+      if (bcrypt.compareSync(password, user.password)) {
+        login=true
+      // res.json({ login: true, user, token, error });
+    
+      } else {
+        login=false
+        error.push("password incorrect")
+      // res.json({ login: false, error });
+      }
+    } else{
+      error.push("email n'existe pas ou incorrect")
+    }
+    
+  }
+  res.json({login, user, token, error})
 })
 
 
