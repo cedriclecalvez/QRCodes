@@ -15,31 +15,40 @@ router.get('/signUp', async function(req, res, next) {
   var result = false
   var saveUser = null
   var token = null
+  var error = []
 
-  const cost = 10;
-  const hash = bcrypt.hashSync(myPlaintextPassword, cost);
-  var salt = uid2(32)
-  var newUser = new userModel ({
-    lastName: req.body.lastname,
-    firstName: req.body.firstname,
-    email: req.body.email,
-    password: hash,
-    token: uid2(32),
-    salt: salt
-   });
+  if (req.body.firstName == ''
+    || req.body.lastName == ''
+    || req.body.email == ''
+    || req.body.password == ''
+    ){
+      error.push('champs vides')
+  }
 
-   saveUser = await newUser.save()
-   console.log("---------saveUser",saveUser)
-  
-   if(saveUser){
-     result = true
-     token = saveUser.token
-   }
+  if (error.length == 0){
+    const cost = 10;
+    const hash = bcrypt.hashSync(myPlaintextPassword, cost);
+    var salt = uid2(32)
+    var newUser = new userModel ({
+      lastName: req.body.lastname,
+      firstName: req.body.firstname,
+      email: req.body.email,
+      password: hash,
+      token: uid2(32),
+      salt: salt
+    });
+
+    saveUser = await newUser.save()
+    console.log("---------saveUser",saveUser)
+    
+    if(saveUser){
+      result = true
+      token = saveUser.token
+    }
+  }
  
- 
- res.json({result, saveUser, token})
+ res.json({result, saveUser, token, error})
 })
-
 
 
 module.exports = router;
