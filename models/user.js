@@ -21,7 +21,6 @@ var userSchema = mongoose.Schema({
     email : String,
     password : String,
     token : String,
-    salt : String,
     qrCodes : [productModel]
 })
 
