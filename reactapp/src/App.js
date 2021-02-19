@@ -1,24 +1,34 @@
-import logo from './logo.svg';
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+
 import './App.css';
+
+import MainPage from './pages/MainPage'
+import Profil from './pages/Profil'
+import QrCodes from './pages/QRCodes'
+import Login from './pages/Login'
+
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
+import userReducer from './reducers/user.reducer'
+
+const store = createStore(userReducer);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <Provider store={store}>
+      <header className="QR codes creator">
       </header>
-    </div>
+      <Router>
+        <Switch>
+          <Route component={MainPage} exact path='/' />
+          <Route component={Profil} exact path='/Profil' />
+          <Route component={QrCodes} exact path='/QRCodes' />
+          <Route component={Login} exact path='/Login' />
+        </Switch>
+      </Router>
+    </Provider>
   );
 }
 
