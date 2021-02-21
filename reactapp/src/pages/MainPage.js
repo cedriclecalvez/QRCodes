@@ -27,12 +27,19 @@ export default function MainPage() {
         }
 
         const responseBEraw = await fetch('/createQRCode');
-        const responseBE = await responseBEraw.json();
+        if (responseBEraw.status === 200){
 
-        console.log(responseBE);
-        // if (responseBE.status){
-        //     setQRcodeImg(responseBE.jpg)
-        // }
+            const responseBE = await responseBEraw.json();
+            console.log(responseBE);
+            // if (responseBE.status){
+                //     setQRcodeImg(responseBE.jpg)
+                // }
+            
+        }else{
+            console.log('pas de reponse de Backend')
+            console.log('responseBEraw.status = ', responseBEraw.status)
+        }
+
 
     }
 
