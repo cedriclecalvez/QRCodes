@@ -108,6 +108,7 @@ const Login = () => {
                 label="login"
                 name='emailIN'
                 type='email'
+                
                 // value={emailIN}
                 // name="username"
                 // rules={[
@@ -119,6 +120,7 @@ const Login = () => {
                 >
                     <Input
                     onChange={ (e)=> setEmailIN(e.target.value)}
+                    placeholder={'Your email'}
                     /> 
                 </Form.Item>
 
@@ -126,6 +128,7 @@ const Login = () => {
                 name='password'
                 type='password'
                 value={password}
+                placeholder={'Your password'}
                 onChange={ (e)=> setPassword(e.target.value)}
                 /> 
 

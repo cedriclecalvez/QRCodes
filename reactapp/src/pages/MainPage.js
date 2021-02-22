@@ -15,18 +15,20 @@ export default function MainPage() {
     const generateQRcode = async () => {
 
 
-        const body = JSON.stringify ({
+        const bodyFront = {
             data : input,
             type : typeQRcode,
 
-        });
+        };
+        const body = JSON.stringify(bodyFront)
+        
         const requet={
             method : 'POST',
             headers : {'Content-Type': 'application/x-www-form-urlencoded'},
             body 
         }
 
-        const responseBEraw = await fetch('/createQRCode');
+        const responseBEraw = await fetch('/products/createQRCode',requet);
         if (responseBEraw.status === 200){
 
             const responseBE = await responseBEraw.json();
