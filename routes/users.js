@@ -20,8 +20,6 @@ router.post('/signUp', async function(req, res, next) {
   var token = null
   var error = []
 
-  console.log("---------userModel",userModel)
-
   var userExist =  await userModel.findOne({email:req.body.email})
   if (userExist!=null){
     error.push('email existe déjà')
@@ -37,7 +35,7 @@ router.post('/signUp', async function(req, res, next) {
 
   if (error.length == 0){
     const cost = 10;
-    const hash = bcrypt.hashSync(myPlaintextPassword, cost);
+    const hash = bcrypt.hashSync(req.body.password, cost);
     var newUser = new userModel ({
       lastName: req.body.lastname,
       firstName: req.body.firstname,
@@ -57,9 +55,6 @@ router.post('/signUp', async function(req, res, next) {
  
  res.json({result, saveUser, token, error})
 });
-
-
-
 
 
 

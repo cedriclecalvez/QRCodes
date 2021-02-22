@@ -75,7 +75,7 @@ const Login = () => {
             const request = {
                 method : 'POST',
                 headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-                body : `email=${emailUP}&password=${password1}&firstname=${lastname}&firstname=${lastname}`
+                body : `email=${emailUP}&password=${password1}&firstname=${firstname}&lastname=${lastname}`
             }
 
             console.log ('Login.submitSignIn(), request pour email=', emailIN);

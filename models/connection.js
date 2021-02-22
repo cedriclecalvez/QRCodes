@@ -12,9 +12,9 @@ var options = {
             if (err){
                 console.log(err);
             } else {
-                console.log('conection BD ok');
+                console.log('connection BD ok');
             }
         }
    );
 
-   module.exports = mongoose
+module.exports = mongoose
