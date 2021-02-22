@@ -15,7 +15,12 @@ export default function MainPage() {
     const generateQRcode = async () => {
 
 
-        const data = JSON.stringify(input);
+        let data;
+        if (typeQRcode === 'URL' || typeQRcode === 'text' ){
+            data = input;
+        }else{
+            data = JSON.stringify(input);
+        }
 
         const requet={
             method : 'POST',
