@@ -58,37 +58,49 @@ router.post('/signUp', async function(req, res, next) {
  res.json({result, saveUser, token, error})
 });
 
+
+
+
+
+
 // POST pour se logger
 router.post('/signIn', async function(req, res, next) {
 
+  console.log('route /signIn')
+  console.log('req.body.email=', req.body.email)
   var error = [];
   
-  if (req.body.firstName==""||req.body.lastname==""||req.body.email==""){
+  // if (req.body.firstName==""||req.body.lastname==""||req.body.email==""){
+  if (req.body.email==""){
     error.push("champs vides")
   }
 
-  if (error.length==0){
+  // if (error.length==0){
     
-    // comparaison des passwords
-    var user = await User.findOne({ email: req.body.email });
-    var password = req.body.password
-    var token = user.token
+  //   // comparaison des passwords
+  //   var user = await userModel.findOne({ email: req.body.email });
+  //   var password = req.body.password
+  //   var token = user.token
     
-    if (user){
-      if (bcrypt.compareSync(password, user.password)) {
-        login=true
-      // res.json({ login: true, user, token, error });
+  //   if (user){
+  //     if (bcrypt.compareSync(password, user.password)) {
+  //       login=true
+  //     // res.json({ login: true, user, token, error });
     
-      } else {
-        login=false
-        error.push("password incorrect")
-      // res.json({ login: false, error });
-      }
-    } else{
-      error.push("email n'existe pas ou incorrect")
-    }
+  //     } else {
+  //       login=false
+  //       error.push("password incorrect")
+  //     // res.json({ login: false, error });
+  //     console.log('route /signIn, user=',  user  )
+  //     console.log('route /signIn, token=', token)
+  //     }
+  //   } else{
+  //     error.push("email n'existe pas ou incorrect")
+  //   }
     
-  }
+  // }
+  console.log('route /signIn, email=', req.body.email)
+  console.log('route /signIn, error=',  error)
   res.json({login, user, token, error})
 })
 
