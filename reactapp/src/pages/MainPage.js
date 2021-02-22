@@ -32,7 +32,7 @@ export default function MainPage() {
         if (responseBEraw.status === 200){
 
             const responseBE = await responseBEraw.json();
-            console.log(responseBE);
+            console.log('responseBE=', responseBE);
             // if (responseBE.status){
                 //     setQRcodeImg(responseBE.jpg)
                 // }
