@@ -1,36 +1,110 @@
 var express = require('express');
 var router = express.Router();
 const fs = require('fs');
-const request = require('request')
+const { env } = require('process');
+const request = require('request');
+const syncRequest = require('sync-request')
+
+
 
   
 
 
 
-
-
-
+// API : codzz-qr-cods
+//--------------------
 
 router.post('/createQRCode', async function(req, res, next) {
     console.log("hello create QRcode", req.body)
     
+
     let result = {
         status : false
     }
 
-    let formData = {
-        image: {},
-        text: req.body.data
+    async function requestAPI(options, result){
+        let ttt = await request(options, function (error, response, body) {
+            if (error)
+                throw new Error(error);
+            console.log('responseAPI=', body);
+    
+            result.jpg = body.url;
+        });
+    
+        return true;
     }
 
 
-    
-const options = {
+
+
+    const options = {
+        method: 'GET',
+        url: 'https://codzz-qr-cods.p.rapidapi.com/getQrcode',
+        qs: {type: req.body.type, value: req.body.data},
+        headers: {
+          'x-rapidapi-key': process.env.RAPIDAPI,
+          'x-rapidapi-host': 'codzz-qr-cods.p.rapidapi.com',
+          useQueryString: true
+        }
+    };
+      
+    result.status = await requestAPI(options, result);
+
+
+    console.log('result=', result)
+    res.json(result)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // API : QRcode3
+    //-----------------
+/*
+    const options = {
     method: 'POST',
     url: 'https://qrcode3.p.rapidapi.com/generateQRwithLogo',
     headers: {
       'content-type': 'multipart/form-data; boundary=---011000010111000001101001',
-      'x-rapidapi-key': '86e262822emshf8f1554c03d58f5p1c48ebjsn62553c054c54',
+      'x-rapidapi-key': process.env.RAPIDAPI,
       'x-rapidapi-host': 'qrcode3.p.rapidapi.com',
       useQueryString: true
     },
@@ -46,14 +120,7 @@ const options = {
   request(options, function (error, response, body) {
       if (error) throw new Error(error);
   
-      console.log(body);
+      console.log('body=', body);
   });
 
-
-
-
-    console.log('result=', result)
-    res.json(result)
-})
-
-module.exports = router;
+*/

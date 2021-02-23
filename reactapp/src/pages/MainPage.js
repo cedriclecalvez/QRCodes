@@ -8,15 +8,16 @@ const { Sider } = Layout;
 export default function MainPage() {
 
     const [input, setInput] = useState('');
-    const [typeQRcode, setTypeQRcode] = useState('URL');
+    const [typeQRcode, setTypeQRcode] = useState('url');
     const [qrcodeImg, setQRcodeImg] = useState (null)
 
 
     const generateQRcode = async () => {
 
+        console.log('genrate QR code')
 
         let data;
-        if (typeQRcode === 'URL' || typeQRcode === 'text' ){
+        if (typeQRcode === 'url' || typeQRcode === 'text' ){
             data = input;
         }else{
             data = JSON.stringify(input);
