@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const request = require('request');
-  
+
 router.post('/createQRCode', async function(req, res, next) {
     console.log("hello create QRcode", req.body)
     const dataFront = JSON.parse(req.body)
