@@ -65,18 +65,16 @@ router.post('/signIn', async function(req, res, next) {
   console.log('req.body.email=', req.body.email)
   var error = [];
   
-  // if (req.body.firstName==""||req.body.lastname==""||req.body.email==""){
-  if (req.body.email==""){
+  if (req.body.email==""||req.body.password==""){
     error.push("champs vides")
   }
 
   if (error.length==0){
-    
-    // comparaison des passwords
     var user = await userModel.findOne({ email: req.body.email });
     var password = req.body.password
     var token = user.token
     
+    // comparaison des passwords
     if (user){
       if (bcrypt.compareSync(password, user.password)) {
         login=true
@@ -92,8 +90,8 @@ router.post('/signIn', async function(req, res, next) {
     }
     
   }
-  console.log('route /signIn, email=', req.body.email)
-  console.log('route /signIn, error=',  error)
+  // console.log('route /signIn, email=', req.body.email)
+  // console.log('route /signIn, error=',  error)
   res.json({login, user, token, error})
 })
 
