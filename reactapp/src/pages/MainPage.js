@@ -8,15 +8,16 @@ const { Sider } = Layout;
 export default function MainPage() {
 
     const [input, setInput] = useState('');
-    const [typeQRcode, setTypeQRcode] = useState('URL');
-    const [qrcodeImg, setQRcodeImg] = useState (null)
+    const [typeQRcode, setTypeQRcode] = useState('url');
+    const [qrcodeImg, setQRcodeImg] = useState ('')
 
 
     const generateQRcode = async () => {
 
+        console.log('genrate QR code')
 
         let data;
-        if (typeQRcode === 'URL' || typeQRcode === 'text' ){
+        if (typeQRcode === 'url' || typeQRcode === 'text' ){
             data = input;
         }else{
             data = JSON.stringify(input);
@@ -33,9 +34,9 @@ export default function MainPage() {
 
             const responseBE = await responseBEraw.json();
             console.log('responseBE=', responseBE);
-            // if (responseBE.status){
-                //     setQRcodeImg(responseBE.jpg)
-                // }
+            if (responseBE.status){
+                    setQRcodeImg(responseBE.jpg)
+            }
             
         }else{
             console.log('pas de reponse de Backend')
@@ -54,10 +55,14 @@ export default function MainPage() {
 
             <Layout>
                 <Sider >
-                    <Button>
+                    <Button
+                    onClick={ ()=> setTypeQRcode('url')}
+                    >
                         URL
                     </Button>
-                    <Button>
+                    <Button
+                    onClick={ ()=> setTypeQRcode('text')}
+                    >
                         text
                     </Button>
                     <Button>
@@ -88,11 +93,7 @@ export default function MainPage() {
                     
                         resultat:
 
-                        { qrcodeImg 
-                        ? <img 
-                        src={qrcodeImg}
-                        />
-                        : ''}
+                        { qrcodeImg ? <img src={qrcodeImg} /> : ''}
                         your QR code
                     </Layout>
                 </Layout>

@@ -1,31 +1,101 @@
 var express = require('express');
 var router = express.Router();
 const fs = require('fs');
-const request = require('request')
+const { env } = require('process');
+const request = require('request-promise-any')
+
+
 
   
 
 
 
-
-
-
+// API : codzz-qr-cods
+//--------------------
 
 router.post('/createQRCode', async function(req, res, next) {
     console.log("hello create QRcode", req.body)
     
+
     let result = {
         status : false
     }
 
-    let formData = {
-        image: {},
-        text: req.body.data
-    }
 
+
+    const options = {
+        method: 'GET',
+        url: 'https://codzz-qr-cods.p.rapidapi.com/getQrcode',
+        qs: {type: req.body.type, value: req.body.data},
+        headers: {
+          'x-rapidapi-key': process.env.RAPIDAPI,
+          'x-rapidapi-host': 'codzz-qr-cods.p.rapidapi.com',
+          useQueryString: true
+        }
+    };
 
     
-const options = {
+    await request(options, function (error, response, body) {
+      if (error)
+          throw new Error(error);
+      console.log('responseAPI=', body);
+      bodyParsed = JSON.parse(body)
+
+      result.jpg = bodyParsed.url;
+      // console.log('request result=', result)
+      result.status = true;
+  });
+  
+
+    console.log('result=', result)
+    res.json(result)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // API : QRcode3
+    //-----------------
+/*
+    const options = {
     method: 'POST',
     url: 'https://qrcode3.p.rapidapi.com/generateQRwithLogo',
     headers: {
@@ -46,14 +116,7 @@ const options = {
   request(options, function (error, response, body) {
       if (error) throw new Error(error);
   
-      console.log(body);
+      console.log('body=', body);
   });
 
-
-
-
-    console.log('result=', result)
-    res.json(result)
-})
-
-module.exports = router;
+*/
