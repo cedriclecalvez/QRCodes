@@ -1,8 +1,25 @@
 var express = require('express');
 var router = express.Router();
-const fs = require('fs');
 const { env } = require('process');
 const request = require('request-promise-any')
+
+const fs = require('fs');
+var uniqid = require('uniqid');
+
+
+
+
+
+// cloudinary
+var cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+//  cloud_name: process.env.CLOUDINARYNAME 
+//  api_key: process.env.CLOUDINARYAPIKEY 
+//  api_secret: process.env.CLOUDINARYSECRETKEY 
+// ----------------OR
+ CLOUDINARY_URL: process.env.CLOUDINARYURL
+});
 
 
 
@@ -14,7 +31,7 @@ const request = require('request-promise-any')
 //--------------------
 
 router.post('/createQRCode', async function(req, res, next) {
-    console.log("hello create QRcode", req.body)
+    console.log("hello route createQRcode", req.body)
     
 
     let result = {
@@ -53,6 +70,30 @@ router.post('/createQRCode', async function(req, res, next) {
 
 
 
+
+router.post('/upload', async function(req, res, next) {
+
+
+// si l'utilisateur est logger
+    console.log("hello1 req query upload", req.query)
+
+    var imagePath = './tmp/ '+uniqid()+'avatar.jpg'
+    console.log("hello2-------------- imagePath",imagePath)
+
+    var resultCopy = await req.files.avatar.mv(imagePath);
+    console.log("fichiers",req.files.avatar)
+    console.log("hello3-----------resultCopy", resultCopy)
+
+    if(!resultCopy) {    
+        var resultCloudinary = await cloudinary.uploader.upload(imagePath);
+        res.json(resultCloudinary);
+        console.log("hello4 ----------- resultCloudinary",resultCloudinary)
+    } else {
+        res.json( {error:resultCopy} );
+    } 
+
+    fs.unlinkSync(imagePath);
+});
 
 
 

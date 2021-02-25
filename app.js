@@ -1,3 +1,4 @@
+var fileUpload = require('express-fileupload');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -12,6 +13,7 @@ var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 
 var app = express();
+app.use(fileUpload());
 
 
 // view engine setup

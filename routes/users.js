@@ -79,6 +79,7 @@ router.post('/signIn', async function(req, res, next) {
       if (bcrypt.compareSync(password, user.password)) {
         login=true
       // res.json({ login: true, user, token, error });
+      
     
       } else {
         login=false
