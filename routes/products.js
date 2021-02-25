@@ -2,8 +2,7 @@ var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 const { env } = require('process');
-const request = require('request');
-const syncRequest = require('sync-request')
+const request = require('request-promise-any')
 
 
 
@@ -22,19 +21,6 @@ router.post('/createQRCode', async function(req, res, next) {
         status : false
     }
 
-    async function requestAPI(options, result){
-        let ttt = await request(options, function (error, response, body) {
-            if (error)
-                throw new Error(error);
-            console.log('responseAPI=', body);
-    
-            result.jpg = body.url;
-        });
-    
-        return true;
-    }
-
-
 
 
     const options = {
@@ -47,9 +33,19 @@ router.post('/createQRCode', async function(req, res, next) {
           useQueryString: true
         }
     };
-      
-    result.status = await requestAPI(options, result);
 
+    
+    await request(options, function (error, response, body) {
+      if (error)
+          throw new Error(error);
+      console.log('responseAPI=', body);
+      bodyParsed = JSON.parse(body)
+
+      result.jpg = bodyParsed.url;
+      // console.log('request result=', result)
+      result.status = true;
+  });
+  
 
     console.log('result=', result)
     res.json(result)
