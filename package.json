@@ -18,6 +18,7 @@
     "jest": "^26.6.0",
     "mongoose": "^5.11.15",
     "morgan": "~1.9.1",
+    "nodemon": "^2.0.7",
     "qrcode-svg": "^1.1.0",
     "request": "^2.88.2",
     "request-promise-any": "^1.0.9",

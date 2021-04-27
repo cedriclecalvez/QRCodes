@@ -4,8 +4,11 @@ const fs = require('fs');
 const { env } = require('process');
 const request = require('request-promise-any')
 
-// const QRcode = require('./qrCode');
+// import QRcode from './qrCode'
+let QRcode = require ('./qrCode')
 
+
+/*
 var qrcode = require("qrcode-svg");
 class QRcode {
     constructor(type, data){
@@ -33,8 +36,9 @@ class QRcode {
     get matrice(){
         return this.codeCreator.qrcode.modules
     }
-    
 }
+*/
+
 
 // API : codzz-qr-cods
 //--------------------
@@ -70,7 +74,7 @@ router.post('/createQRCode', async function(req, res, next) {
     
     try{
       var qrCodeClass = new QRcode (req.body.type, req.body.data)
-      type(qrCodeClass.matrice);
+      printTab(qrCodeClass.matrice);
     }catch(e){
       console.log(e)
     }
@@ -81,7 +85,7 @@ router.post('/createQRCode', async function(req, res, next) {
   })
   
 
-const type = (tab) =>{
+const printTab = (tab) =>{
   var output = '';
   for (var i = 0; i<tab.length; i+=1){
     for (var j = 0; j<tab[i].length; j+=1){
